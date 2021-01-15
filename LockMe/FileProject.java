@@ -19,7 +19,7 @@ public class FileProject {
 	static Scanner read=new Scanner(System.in);
 	static int a;
 	private static void  menu() {
-		
+		try {
 		System.out.println("\t\tLockedMe.com \nDeveloped by \nPranav T N");
 		System.out.println("\n\t(1) Print File names in Ascending order\n\t(2) Other Operations\n\t(3) Exit \n\n\tEnter an Option:");
 		int a=Integer.parseInt(read.nextLine());
@@ -37,7 +37,13 @@ public class FileProject {
 			break;
 		default:
 			System.out.println("Invalid Option!!!");
+			menu();
 			break;
+		}
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Invalid Option!!!");
+			menu();
 		}
 	}
 	private static void submenu() {
@@ -62,9 +68,12 @@ public class FileProject {
 	private static List<String> addtoList(File files,List<String> list){
 		//Set<String> list=new HashSet<String>();
 		try {
-		File[] filess=files.listFiles();	
+		File[] filess=files.listFiles();
+		if(filess==null) {
+			return null;
+		}
 		for(File each:filess) {
-			list.add(each.getName());
+			list.add(each.getName().toString());
 			if(each.isDirectory()){
 				addtoList(each,list);
 				}
