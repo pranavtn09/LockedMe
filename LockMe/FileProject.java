@@ -65,16 +65,18 @@ public class FileProject {
 			break;
 		}
 	}
-	private static List<String> addtoList(File files,List<String> list){
+	private static List<String> addtoList(File files,List<String> list,String path){
 		//Set<String> list=new HashSet<String>();
 		try {
 		File[] filess=files.listFiles();
 		if(filess==null) {
+			Path p=Paths.get(path);
+			Files.exists(p, null);
 			return null;
 		}
 		for(File each:filess) {
 			if(each.isDirectory()){
-				addtoList(each,list);
+				addtoList(each,list,path);
 				}
 			else {
 				list.add(each.getName().toString());
@@ -83,7 +85,7 @@ public class FileProject {
 		return list;
 	}catch (Exception e) {
 		// TODO: handle exception
-		System.out.println("Invalid Directory!!");
+		System.out.println("Invalid Path!!");
 		menu();
 		System.exit(0);
 		return null;
@@ -94,11 +96,16 @@ public class FileProject {
 		String path=read.nextLine();
 		File files=new File(path);
 		List<String> list=new ArrayList<String>();
-		addtoList(files, list);
+		addtoList(files, list,path);
 		Collections.sort(list,String.CASE_INSENSITIVE_ORDER);
+		if(list.isEmpty()) {
+			System.out.println("No Files");
+		}
+		else {
 		System.out.println("List of Files in route folder and its subfolder\n");
 		for(String s:list) {
 			System.out.println(s);
+		}
 		}
 		menu();
 	}
@@ -117,9 +124,13 @@ public class FileProject {
 				System.out.println("File Already Exist!!!");
 				submenu();
 			}
-		} catch (IOException e) {
+		} catch (NoSuchFileException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Invalid Path!!!");
+			submenu();
+		}catch (IOException e) {
+			// TODO: handle exception
+			System.out.println("Invalid pat!!h");
 		}
 		
 	}
