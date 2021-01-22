@@ -73,10 +73,12 @@ public class FileProject {
 			return null;
 		}
 		for(File each:filess) {
-			list.add(each.getName().toString());
 			if(each.isDirectory()){
 				addtoList(each,list);
 				}
+			else {
+				list.add(each.getName().toString());
+			}
 			}
 		return list;
 	}catch (Exception e) {
