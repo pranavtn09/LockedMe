@@ -42,6 +42,7 @@ public class FileProject {
 		}
 		}catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			System.out.println("Invalid Option!!!");
 			menu();
 		}
@@ -130,7 +131,7 @@ public class FileProject {
 			submenu();
 		}catch (IOException e) {
 			// TODO: handle exception
-			System.out.println("Invalid pat!!h");
+			System.out.println("Invalid path!!");
 		}
 		
 	}
@@ -140,16 +141,20 @@ public class FileProject {
 	    System.out.println("Name of the file to be Deleted:");
 	    String name=read.nextLine();
 	    String ps=path.concat("\\"+name);
+	    try {
 	    File files=new File(path);
 	    int flag=0;
 	    File[] filess=files.listFiles();
+	    if(filess==null) {
+	    	System.out.println("Invalid Path");
+	    	submenu();
+	    }
 		for(File f:filess) {
 			if(f.getName().equals(name)) {
 				flag=1;
 				break;
 			}
 		}
-		try {
 			if(flag==1) {
 			Path p=Paths.get(ps);
 			Files.delete(p);
@@ -173,7 +178,7 @@ public class FileProject {
 			submenu();
 		}
 	
-		catch (IOException e) {
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -189,6 +194,10 @@ public class FileProject {
 		File file=new File(p);
 		int flag=0;
 		File[] filess=files.listFiles();
+		if(filess==null) {
+			System.out.println("Invalid Path");
+			submenu();
+		}
 		for(File f:filess) {
 			if(f.getName().equals(name)&&!file.isDirectory()) {
 				flag=1;
