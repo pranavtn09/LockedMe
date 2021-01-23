@@ -135,14 +135,31 @@ public class FileProject {
 		
 	}
 	private static void deleteFile() {
-		System.out.println("Enter the Name of the file to be Deleted with absolute path(E:\\DwnlData\\Documents\\test1.txt):");
+		System.out.println("Enter Absolute path(E:\\DwnlData\\Documents):");
 	    String path=read.nextLine();		
+	    System.out.println("Name of the file to be Deleted:");
+	    String name=read.nextLine();
+	    String ps=path.concat("\\"+name);
+	    File files=new File(path);
+	    int flag=0;
+	    File[] filess=files.listFiles();
+		for(File f:filess) {
+			if(f.getName().equals(name)) {
+				flag=1;
+				break;
+			}
+		}
 		try {
-			Path p=Paths.get(path);
+			if(flag==1) {
+			Path p=Paths.get(ps);
 			Files.delete(p);
 			System.out.println("File Successfully Deleted");
 			submenu();
-		}catch(NoSuchFileException f) {
+			}else {
+				System.out.println("File not Found");
+				submenu();
+			}
+		}catch(NoSuchFileException fs) {
 			System.out.println("File Not Found");
 			submenu();
 			
@@ -151,7 +168,7 @@ public class FileProject {
 			System.out.println("Invalid Path!!!");
 			submenu();
 		}
-		catch(DirectoryNotEmptyException f) {
+		catch(DirectoryNotEmptyException fs) {
 			System.out.println("It is a Directory");
 			submenu();
 		}
@@ -163,10 +180,22 @@ public class FileProject {
 	}
 		
 	private static void searchFile()  {
-		System.out.println("Enter File to be Searched with abssolute path(Eg:E:\\DwnlData\\Documents\\test.txt):");
+		System.out.println("Enter  Absolute path(Eg:E:\\DwnlData\\Documents):");
 		String path=read.nextLine();
+		System.out.println("Enter Filename:");
+		String name=read.nextLine();
+		String p=path.concat("\\"+name);
 		File files=new File(path);
-		if(files.exists() &&!files.isDirectory()) {
+		File file=new File(p);
+		int flag=0;
+		File[] filess=files.listFiles();
+		for(File f:filess) {
+			if(f.getName().equals(name)&&!file.isDirectory()) {
+				flag=1;
+				break;
+			}
+		}
+		if(flag==1) {
 			System.out.println("File Found");	
 			submenu();
 		}
@@ -175,6 +204,7 @@ public class FileProject {
 		submenu();
 		}
 	}
+	
 	
 	public static void main(String[] args)  {
 		
